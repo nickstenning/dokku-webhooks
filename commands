@@ -11,7 +11,7 @@ case "$1" in
 
   webhooks:add)
     [[ -z $2 ]] && echo "Please specify a webhook URL to add" && exit 1
-    if grep -Fxq "$2" "$HOOKS_FILE"; then
+    if grep -Fxq "$2" "$HOOKS_FILE" 2>/dev/null; then
       echo "URL already registered"
       exit 1
     fi
