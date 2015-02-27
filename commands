@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+source "$(dirname $0)/../common/functions"
+
+HOOKS_FILE="$DOKKU_ROOT/WEBHOOKS"
+
+case "$1" in
+  webhooks)
+    cat "$HOOKS_FILE" 2>/dev/null
+    ;;
+
+  webhooks:add)
+    [[ -z $2 ]] && echo "Please specify a webhook URL to add" && exit 1
+    if grep -Fxq "$2" "$HOOKS_FILE"; then
+      echo "URL already registered"
+      exit 1
+    fi
+    echo "$2" >> "$HOOKS_FILE"
+    echo "URL added"
+    ;;
+
+  webhooks:remove)
+    [[ -z $2 ]] && echo "Please specify a webhook URL to remove" && exit 1
+    grep -Fxv "$2" "$HOOKS_FILE" >"${HOOKS_FILE}.tmp"
+    mv "${HOOKS_FILE}.tmp" "$HOOKS_FILE"
+    echo "URL removed (if it was present)"
+    ;;
+
+  help)
+    cat && cat<<EOF
+    webhooks                                        Lists webhook URLs
+    webhooks:add <url>                              Adds a webhook URL
+    webhooks:remove <url>                           Removes a webhook URL
+EOF
+    ;;
+
+  *)
+    exit $DOKKU_NOT_IMPLEMENTED_EXIT
+    ;;
+
+esac
