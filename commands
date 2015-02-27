@@ -21,8 +21,8 @@ case "$1" in
 
   webhooks:remove)
     [[ -z $2 ]] && echo "Please specify a webhook URL to remove" && exit 1
-    grep -Fxv "$2" "$HOOKS_FILE" >"${HOOKS_FILE}.tmp"
-    mv "${HOOKS_FILE}.tmp" "$HOOKS_FILE"
+    grep -Fxv "$2" "$HOOKS_FILE" >"${HOOKS_FILE}.new" 2>/dev/null || :
+    mv "${HOOKS_FILE}.new" "$HOOKS_FILE"
     echo "URL removed (if it was present)"
     ;;
 
