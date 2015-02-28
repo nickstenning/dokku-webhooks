@@ -21,7 +21,7 @@ else
   NEWREV=$REV
 fi
 
-$PLUGIN_PATH/webhooks/trigger receive-app $APP \
+"$(dirname $0)"/trigger receive-app $APP \
     git_rev=$NEWREV \
     git_rev_before=$OLDREV
 
