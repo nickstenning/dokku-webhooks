@@ -13,8 +13,16 @@ APP=$1; REV=$2
 OLDREV=$(cat $DOKKU_ROOT/$APP/refs/heads/master 2>/dev/null ||
          echo 0000000000000000000000000000000000000000)
 
+# If we're called as a result of a ps:rebuild or similar, then REV will be
+# empty, in which case we should set it to the OLDREV.
+if [[ -z "$REV" ]]; then
+  NEWREV=$OLDREV
+else
+  NEWREV=$REV
+fi
+
 $PLUGIN_PATH/webhooks/trigger receive-app $APP \
-    git_rev=$REV \
+    git_rev=$NEWREV \
     git_rev_before=$OLDREV
 
 # And then continue the build as normal
