@@ -24,7 +24,7 @@ case "$1" in
     echo "URL removed (if it was present)"
     ;;
 
-  help)
+  help|webhooks:help)
     cat && cat<<EOF
     webhooks                                        Lists webhook URLs
     webhooks:add <url>                              Adds a webhook URL
