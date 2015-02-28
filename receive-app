@@ -13,8 +13,7 @@ APP=$1; REV=$2
 OLDREV=$(cat $DOKKU_ROOT/$APP/refs/heads/master 2>/dev/null ||
          echo 0000000000000000000000000000000000000000)
 
-$PLUGIN_PATH/webhooks/trigger receive-app \
-    app=$APP \
+$PLUGIN_PATH/webhooks/trigger receive-app $APP \
     git_rev=$REV \
     git_rev_before=$OLDREV
 
