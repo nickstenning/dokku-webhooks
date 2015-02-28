@@ -3,8 +3,11 @@ set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
 APP=$1; PORT=$2; IP=$3
 
+REV=$(cat $DOKKU_ROOT/$APP/refs/heads/master)
+
 $PLUGIN_PATH/webhooks/trigger post-deploy \
   app=$APP \
+  git_rev=$REV \
   internal_port=$PORT \
   internal_ip=$IP \
   url=$(dokku url $APP)

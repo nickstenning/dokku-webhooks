@@ -1,23 +1,22 @@
 #!/usr/bin/env bash
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
-APP=$1; REV=$2
-
 # In order to get access to the git revision being pushed, we have to intercept
 # it in the only pluginhook which has access to it, receive-app. This is ugly,
 # and there may be a better way in the future.
-export DOKKU_GIT_NEWREV=$REV
+
+APP=$1; REV=$2
 
 # Current git rev is either master or 0{40} if this is the first push. Again,
 # ideally we'd get this direct from the prereceive hook, but it's not passed
 # through by dokku at the moment.
-export DOKKU_GIT_OLDREV=$(cat $DOKKU_ROOT/$APP/refs/heads/master 2>/dev/null ||
-                          echo 0000000000000000000000000000000000000000)
+OLDREV=$(cat $DOKKU_ROOT/$APP/refs/heads/master 2>/dev/null ||
+         echo 0000000000000000000000000000000000000000)
 
 $PLUGIN_PATH/webhooks/trigger receive-app \
     app=$APP \
-    git_rev_before=$DOKKU_GIT_OLDREV \
-    git_rev_after=$DOKKU_GIT_NEWREV
+    git_rev=$REV \
+    git_rev_before=$OLDREV
 
 # And then continue the build as normal
 dokku git-build $APP $REV
