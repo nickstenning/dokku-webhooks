@@ -3,7 +3,7 @@ set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 source "$(dirname $0)/../common/functions"
 source "$(dirname $0)/config"
 
-ACTION=$1; shift; APP=$2; shift
+ACTION=$1; APP=$2; shift; shift
 
 join () {
   IFS=$1; shift; echo "$*"
