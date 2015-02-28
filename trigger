@@ -17,7 +17,7 @@ PAYLOAD=$(join '&' action=$ACTION "$DATA")
 
 while read url; do
   dokku_log_info2_quiet "$url"
-  if ! curl -sSL -X POST -d "'$PAYLOAD'" -o/dev/null "'$url'"; then
+  if ! curl -sSL -X POST -d "$PAYLOAD" -o/dev/null "$url"; then
       dokku_log_warn "Failed to post webhook to '$url'. Continuing..."
   fi
 done < "$HOOKS_FILE"
