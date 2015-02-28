@@ -11,7 +11,7 @@ join () {
 
 dokku_log_info1 "Running webhooks for $ACTION"
 
-[[ -f "$HOOKS_FILE" ]] || exit
+[[ -f "$HOOKS_FILE" ]] || exit 0
 
 PAYLOAD=$(join '&' action=$ACTION app=$APP host=$(hostname -f) "$@")
 
