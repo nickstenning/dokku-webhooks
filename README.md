@@ -38,8 +38,7 @@ Param            | Example value                                | Description
 `action`         | `receive-app`                                | The name of the current action.
 `app`            | `mywebapp`                                   | The name of the app being deployed.
 `git_rev`        | `ade8218956d4a744ca42f872700384124edf015b`   | The git revision being deployed.
-`git_rev_before` | `0000000000000000000000000000000000000000`   | The git revision currently deployed, or
-                 |                                              | `0{40}` if this is the first deploy.
+`git_rev_before` | `0000000000000000000000000000000000000000`   | The git revision currently deployed, or `0{40}` if this is the first deploy.
 
 ### `post-deploy`
 
