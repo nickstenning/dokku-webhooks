@@ -3,7 +3,7 @@ set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 source "$(dirname $0)/../common/functions"
 source "$(dirname $0)/config"
 
-ACTION=$1; shift; DATA="$@"
+ACTION=$1; shift
 
 join () {
   IFS=$1; shift; echo "$*"
@@ -13,7 +13,7 @@ dokku_log_info1 "Running webhooks for $ACTION"
 
 [[ -f "$HOOKS_FILE" ]] || exit
 
-PAYLOAD=$(join '&' action=$ACTION "$DATA")
+PAYLOAD=$(join '&' action=$ACTION "$@")
 
 while read url; do
   dokku_log_info2_quiet "$url"
