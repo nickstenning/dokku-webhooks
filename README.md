@@ -7,7 +7,7 @@ to build/deployment stages.
 ## Installation
 
     git clone https://github.com/nickstenning/dokku-webhooks.git /var/lib/dokku/plugins/webhooks
-    chmod -x /var/lib/dokku/plugins/git/receive-app
+    mv /var/lib/dokku/plugins/git/receive-app /var/lib/dokku/plugins/git/receive-app.bak
 
 The second step is necessary because this plugin replaces the default
 `receive-app` hook. If you don't use the default git `receive-app` hook then you
