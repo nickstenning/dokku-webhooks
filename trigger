@@ -13,11 +13,11 @@ dokku_log_info1 "Running webhooks for $ACTION"
 
 [[ -f "$HOOKS_FILE" ]] || exit 0
 
-PAYLOAD=$(join '&' action=$ACTION app=$APP host=$(hostname -f) "$@")
+PAYLOAD=$(join '&' action=$ACTION app=$APP url=$(dokku url $APP) host=$(hostname -f) "$@")
 
-while read url; do
-  dokku_log_info2_quiet "$url"
-  if ! curl -sSL -X POST -d "$PAYLOAD" -o/dev/null "$url"; then
-      dokku_log_warn "Failed to post webhook to '$url'. Continuing..."
+while read webhook_url; do
+  dokku_log_info2_quiet "$webhook_url"
+  if ! curl -sSL -X POST -d "$PAYLOAD" -o/dev/null "$webhook_url"; then
+      dokku_log_warn "Failed to post webhook to '$webhook_url'. Continuing..."
   fi
 done < "$HOOKS_FILE"
