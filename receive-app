@@ -19,11 +19,17 @@ if [[ -z "$REV" ]]; then
   NEWREV=$OLDREV
 else
   NEWREV=$REV
+  # GIT_LOG=$(cd $DOKKU_ROOT/$APP; git log --pretty='%cN: %s' HEAD...$NEWREV)
 fi
 
+NEWREV_SHORT=$(echo $NEWREV | cut -b-7)
+
 "$(dirname $0)"/trigger receive-app $APP \
-    git_rev=$NEWREV \
-    git_rev_before=$OLDREV
+    head=$NEWREV_SHORT
+    head_long=$NEWREV \
+    head_long_before=$OLDREV
+    # "git_log=$GIT_LOG"
+    # release=V1
 
 # And then continue the build as normal
 dokku git-build $APP $REV
