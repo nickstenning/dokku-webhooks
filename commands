@@ -24,12 +24,30 @@ case "$1" in
     echo "URL removed (if it was present)"
     ;;
 
-  help|webhooks:help)
-    cat && cat<<EOF
+  help | webhooks:help)
+
+    help_content_func() {
+      #shellcheck disable=SC2034
+      declare desc="return webhooks plugin help content"
+
+      cat<<help_content
     webhooks                                        Lists webhook URLs
     webhooks:add <url>                              Adds a webhook URL
     webhooks:remove <url>                           Removes a webhook URL
-EOF
+help_content
+    }
+
+    if [[ $1 = "webhooks:help" ]]; then
+      echo -e 'Usage: dokku webhooks[:COMMAND]'
+      echo ''
+      echo 'Allows triggering external webhooks'
+      echo ''
+      echo 'Additional commands:'
+      help_content_func | sort | column -c2 -t -s,
+    else
+      help_content_func
+    fi
+
     ;;
 
   *)
