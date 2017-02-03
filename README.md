@@ -9,7 +9,7 @@ to build/deployment stages.
 
 ```shell
 # dokku 0.4.x+
-sudo dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
+sudo dokku plugin:install https://github.com/nickstenning/dokku-webhooks.git
 
 # dokku 0.3
 git clone https://github.com/nickstenning/dokku-webhooks.git /var/lib/dokku/plugins/webhooks
